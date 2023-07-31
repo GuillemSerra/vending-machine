@@ -17,7 +17,7 @@ export const Product = ({ title, stock, price }: ProductProps) => {
       <Box textAlign="center" sx={{ fontSize: 21, fontWeight: 800 }}>
         {title}
       </Box>
-      <Box textAlign="center">Stock: {stock}€</Box>
+      <Box textAlign="center">Stock: {stock}</Box>
       <Box textAlign="center">Price: {price}€</Box>
     </Box>
   );

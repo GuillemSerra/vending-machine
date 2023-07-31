@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import { Wallet } from "../components/Wallet";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { SlotProps, api, slotsPayload } from "../api";
+import { SlotProps, api } from "../api";
 
 export const VendingMachine: FC = () => {
   const [products, setProducts] = useState<SlotProps[]>([]);
@@ -19,9 +19,9 @@ export const VendingMachine: FC = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response: any = await api.simulate(slotsPayload);
-        //const response = await api.getProducts();
-        setProducts(response);
+        const response = await api.getProducts();
+        const products: SlotProps[] = response.data;
+        setProducts(products);
       } catch (error: any) {
         setError(error);
       } finally {
