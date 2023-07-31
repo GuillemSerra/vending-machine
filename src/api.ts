@@ -19,6 +19,11 @@ export interface SlotProps {
 export const api = {
   getProducts: async () =>
     axios.get(process.env.REACT_APP_BACKEND_URL + "/slots/"),
+  buyProduct: async (username: string, slot_id: string) =>
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/buy/", {
+      username: username,
+      slot_id: slot_id,
+    }),
   login: async (username: string) =>
     axios.post(process.env.REACT_APP_BACKEND_URL + "/login/", {
       username: username,

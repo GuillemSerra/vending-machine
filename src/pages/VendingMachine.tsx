@@ -53,6 +53,7 @@ export const VendingMachine: FC = () => {
             title: product.product.name,
             stock: product.quantity,
             price: parseFloat(product.product.price),
+            slot_id: product.id,
           }))}
         />
       </Grid>

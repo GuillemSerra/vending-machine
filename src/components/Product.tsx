@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useCallback } from "react";
 import { setBalance } from "../redux/vendingMachineSlice";
+import { api } from "../api";
 
 // This is a TypeScript interface to define which props the component should receive
 export interface ProductProps {
   title: string;
   stock: number;
   price: number;
+  slot_id: string;
 }
 
 export const Product = ({ title, stock, price }: ProductProps) => {
@@ -24,16 +26,13 @@ export const Product = ({ title, stock, price }: ProductProps) => {
 };
 
 export const Products = ({ products }: { products: ProductProps[] }) => {
-  const credit = useSelector(
-    (state: RootState) => state.vendingMachine.balance
-  );
+  const token = useSelector((state: RootState) => state.vendingMachine.token);
   const dispatch = useDispatch();
-  const handleOnClick = useCallback(
-    (balance: number) => {
-      dispatch(setBalance(balance));
-    },
-    [dispatch]
-  );
+  const handleBuyProduct = async (slot_id: string) => {
+    const response = await api.buyProduct(token as string, slot_id);
+    dispatch(setBalance(response.data.balance));
+  };
+
   return (
     <Box
       sx={{
@@ -54,6 +53,7 @@ export const Products = ({ products }: { products: ProductProps[] }) => {
               title={product.title}
               stock={product.stock}
               price={product.price}
+              slot_id={product.slot_id}
             />
             <Button
               variant="outlined"
@@ -61,7 +61,7 @@ export const Products = ({ products }: { products: ProductProps[] }) => {
                 backgroundColor: "primary.dark",
                 color: "white",
               }}
-              onClick={() => handleOnClick(credit - product.price)}
+              onClick={() => handleBuyProduct(product.slot_id)}
             >
               Buy
             </Button>
