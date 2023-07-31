@@ -23,6 +23,15 @@ export const api = {
     axios.post(process.env.REACT_APP_BACKEND_URL + "/login/", {
       username: username,
     }),
+  addBalance: async (username: string, amount: number) =>
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/balance/add/", {
+      username: username,
+      amount: amount,
+    }),
+  refundBalance: async (username: string) =>
+    axios.post(process.env.REACT_APP_BACKEND_URL + "/balance/refund/", {
+      username: username,
+    }),
   simulate: (data: any): Promise<any> => {
     return new Promise((resolve) => {
       setTimeout(() => {

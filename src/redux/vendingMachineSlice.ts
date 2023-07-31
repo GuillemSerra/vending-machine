@@ -29,7 +29,7 @@ export const vendingMachineSlice = createSlice({
   },
 });
 
-export const { setToken, setUsername, setBalance } =
+export const { setUsername, setBalance, setToken } =
   vendingMachineSlice.actions;
 
 export default vendingMachineSlice.reducer;

@@ -3,7 +3,11 @@ import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import { RootState } from "../app/store";
-import { setBalance, setUsername } from "../redux/vendingMachineSlice";
+import {
+  setBalance,
+  setToken,
+  setUsername,
+} from "../redux/vendingMachineSlice";
 import { api } from "../api";
 
 export const Login: FC = () => {
@@ -20,6 +24,7 @@ export const Login: FC = () => {
     try {
       const response: any = await api.login(username);
       dispatch(setUsername(response.data.full_name));
+      dispatch(setToken(username));
       dispatch(setBalance(parseFloat(response.data.balance)));
     } catch (error: any) {
       console.log(error);

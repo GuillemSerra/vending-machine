@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { setBalance } from "../redux/vendingMachineSlice";
+import { api } from "../api";
 
 const colors = ["Black", "Yellow", "Pink", "Orange", "Blue", "Green", "Purple"];
 
@@ -13,10 +14,16 @@ export const Wallet = () => {
   const username = useSelector(
     (state: RootState) => state.vendingMachine.username
   );
+  const token = useSelector((state: RootState) => state.vendingMachine.token);
   const dispatch = useDispatch();
-  const handleOnClick = useCallback((balance: number) => {
-    dispatch(setBalance(balance));
-  }, []);
+  const handleAddBalance = async (balance: number) => {
+    const response = await api.addBalance(token as string, balance);
+    dispatch(setBalance(response.data.balance));
+  };
+  const handleRefundBalance = async () => {
+    const response = await api.refundBalance(token as string);
+    dispatch(setBalance(0));
+  };
 
   return (
     <Box
@@ -58,7 +65,7 @@ export const Wallet = () => {
                   colors[Math.floor(Math.random() * colors.length)],
                 color: "white",
               }}
-              onClick={() => handleOnClick(credit + 5)}
+              onClick={() => handleAddBalance(5)}
             >
               {5}e
             </Button>
@@ -71,7 +78,7 @@ export const Wallet = () => {
                   colors[Math.floor(Math.random() * colors.length)],
                 color: "white",
               }}
-              onClick={() => handleOnClick(credit + 10)}
+              onClick={() => handleAddBalance(10)}
             >
               {10}e
             </Button>
@@ -84,7 +91,7 @@ export const Wallet = () => {
                   colors[Math.floor(Math.random() * colors.length)],
                 color: "white",
               }}
-              onClick={() => handleOnClick(credit + 15)}
+              onClick={() => handleAddBalance(15)}
             >
               {15}e
             </Button>
@@ -97,7 +104,7 @@ export const Wallet = () => {
                   colors[Math.floor(Math.random() * colors.length)],
                 color: "white",
               }}
-              onClick={() => handleOnClick(credit + 20)}
+              onClick={() => handleAddBalance(20)}
             >
               {20}e
             </Button>
@@ -130,7 +137,7 @@ export const Wallet = () => {
         <Button
           variant="outlined"
           sx={{ backgroundColor: "purple", color: "white" }}
-          onClick={() => handleOnClick(0)}
+          onClick={() => handleRefundBalance()}
         >
           Refund Money
         </Button>
