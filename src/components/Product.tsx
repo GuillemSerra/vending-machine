@@ -1,7 +1,6 @@
 import { Box, Button, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { useCallback } from "react";
 import { setBalance } from "../redux/vendingMachineSlice";
 import { api } from "../api";
 
